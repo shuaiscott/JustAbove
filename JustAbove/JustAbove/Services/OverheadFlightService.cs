@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
-using Flurl;
-using Flurl.Http;
 using JustAbove.Models;
 using JustAbove.Utilities;
 using Newtonsoft.Json;
+using Xamarin.Essentials;
 
 namespace JustAbove.Services
 {
@@ -15,25 +14,39 @@ namespace JustAbove.Services
     {
         private const string OpenSkyDomain = "https://opensky-network.org";
         private const string OpenSkyAllStatesPath = "/api/states/all";
+        private static readonly GeolocationRequest HighGeolocationRequest = new GeolocationRequest(GeolocationAccuracy.High);
 
         public static async Task<List<Flight>> GetOverheadFlights(int searchRadius = 10)
         {
             // TODO Get GPS coordinates
+            try
+            {
+                var location = await Geolocation.GetLocationAsync(HighGeolocationRequest);
+
+                if (location != null)
+                {
+                    Console.WriteLine($"Latitude: {location.Latitude}, Longitude: {location.Longitude}, Altitude: {location.Altitude}");
+                }
+            }
+            catch (FeatureNotSupportedException fnsEx)
+            {
+                // Handle not supported on device exception
+            }
+            catch (FeatureNotEnabledException fneEx)
+            {
+                // Handle not enabled on device exception
+            }
+            catch (PermissionException pEx)
+            {
+                // Handle permission exception
+            }
+            catch (Exception ex)
+            {
+                // Unable to get location
+            }
 
             // TODO Expand coordinates by {searchRadius} NM in compass directions to get MinLat, MinLong, MaxLat, MaxLong
 
-
-            // Submit web request to get flights in search area
-            // var result = await OpenSkyDomain
-            //     .AppendPathSegment(OpenSkyAllStatesPath)
-            //     .SetQueryParams(new
-            //     {
-            //         lamin = 40,
-            //         lamax = 41,
-            //         lomin = -112,
-            //         lomax = -111,
-            //     })
-            //     .GetAsync();
 
             HttpClient client = new HttpClient();
 
