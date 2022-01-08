@@ -15,34 +15,20 @@
             <viewModels:FlightsViewModel/>
         </StackLayout.BindingContext>
 
-        <Button Text="Refresh" Command="{Binding LoadOverheadFlightsCommand}"/>
+        <CollectionView ItemsSource="{Binding Flights}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Label Text="{Binding Callsign}"
+                           TextColor="#ffd603"
+                           FontSize="36"
+                           FontFamily="LED"
+                           HorizontalTextAlignment="Center"
+                           Margin="8"
+                           CharacterSpacing=".4"/>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
 
-        <Label Text="{Binding Flights[0].Callsign}"
-               FontSize="36"
-               FontFamily="LED"
-               TextColor="#ffd603"
-               HorizontalOptions="Center"
-               VerticalOptions="Center">
-            <Label.BindingContext>
-                <viewModels:FlightsViewModel />
-            </Label.BindingContext>
-        </Label>
-
-        <!-- <ListView ItemsSource="{x:Static }" > -->
-        <!--     <ListView.ItemTemplate> -->
-        <!--         <DataTemplate> -->
-        <!--             <ViewCell> -->
-        <!--                 <ViewCell.View> -->
-        <!--                     <Label Text="{Binding x.TestInt}" -->
-        <!--                            TextColor="#ffd603"  -->
-        <!--                            FontSize="36"  -->
-        <!--                            FontFamily="LED"  -->
-        <!--                            Padding="20" /> -->
-        <!--                 </ViewCell.View> -->
-        <!--             </ViewCell> -->
-        <!--         </DataTemplate> -->
-        <!--     </ListView.ItemTemplate> -->
-        <!-- </ListView> -->
 
 
     </StackLayout>

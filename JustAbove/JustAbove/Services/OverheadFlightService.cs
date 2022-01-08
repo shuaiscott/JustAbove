@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading.Tasks;
+using System.Web;
 using Flurl;
 using Flurl.Http;
 using JustAbove.Models;
@@ -22,20 +24,38 @@ namespace JustAbove.Services
 
 
             // Submit web request to get flights in search area
-            var result = await OpenSkyDomain
-                .AppendPathSegment(OpenSkyAllStatesPath)
-                .SetQueryParams(new
-                {
-                    lamin = 40,
-                    lamax = 41,
-                    lomin = -112,
-                    lomax = -111,
-                })
-                .GetAsync();
+            // var result = await OpenSkyDomain
+            //     .AppendPathSegment(OpenSkyAllStatesPath)
+            //     .SetQueryParams(new
+            //     {
+            //         lamin = 40,
+            //         lamax = 41,
+            //         lomin = -112,
+            //         lomax = -111,
+            //     })
+            //     .GetAsync();
 
-            var openSkyResponse = JsonConvert.DeserializeObject<OpenSkyStateResponse>(await result.ResponseMessage.Content.ReadAsStringAsync(), new OpenSkyStateJsonConverter());
+            HttpClient client = new HttpClient();
 
-            return OpenSkyStateResponse.MapToFlights(openSkyResponse);
+            var uriBuilder = new UriBuilder(OpenSkyDomain);
+            uriBuilder.Path = OpenSkyAllStatesPath;
+            var query = HttpUtility.ParseQueryString(uriBuilder.Query);
+            query["lamin"] = "39";
+            query["lamax"] = "42";
+            query["lomin"] = "-113";
+            query["lomax"] = "-110";
+            uriBuilder.Query = query.ToString();
+
+            var result = await client.GetAsync(uriBuilder.ToString());
+            if (result.IsSuccessStatusCode)
+            {
+                var openSkyResponse = JsonConvert.DeserializeObject<OpenSkyStateResponse>(await result.Content.ReadAsStringAsync(), new OpenSkyStateJsonConverter());
+
+                return OpenSkyStateResponse.MapToFlights(openSkyResponse);
+            }
+
+            return new List<Flight>();
+
         }
 
 
