@@ -5,31 +5,37 @@
              x:Class="JustAbove.MainPage">
 
     <StackLayout BackgroundColor="#231717">
+        <StackLayout.BindingContext>
+            <viewModels:FlightsViewModel/>
+        </StackLayout.BindingContext>
+
         <Label Text="✈ Flights" 
                HorizontalTextAlignment="Center" 
                TextColor="#ffd603" 
                FontSize="36"
                FontFamily="Lucida Sans"
-               />
-        <StackLayout.BindingContext>
-            <viewModels:FlightsViewModel/>
-        </StackLayout.BindingContext>
+        />
 
         <CollectionView ItemsSource="{Binding Flights}">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Label Text="{Binding Callsign}"
-                           TextColor="#ffd603"
+                    <Label TextColor="#ffd603"
                            FontSize="36"
                            FontFamily="LED"
                            HorizontalTextAlignment="Center"
                            Margin="8"
-                           CharacterSpacing=".4"/>
+                           CharacterSpacing=".4">
+                        <Label.Text>
+                            <MultiBinding StringFormat="{}{0} {1} {2}">
+                                <Binding Path="Callsign" />
+                                <Binding Path="Latitude" />
+                                <Binding Path="Longitude" />
+                            </MultiBinding>
+                        </Label.Text>
+                    </Label>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
-
-
 
     </StackLayout>
 

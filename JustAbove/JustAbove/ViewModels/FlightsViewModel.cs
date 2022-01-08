@@ -19,6 +19,7 @@ namespace JustAbove.ViewModels
         public FlightsViewModel()
         {
             Flights = new List<Flight>();
+            Device.BeginInvokeOnMainThread(async () => await LoadOverheadFlightsAsync());
 
             LoadOverheadFlightsCommand = new Command(async () => await LoadOverheadFlightsAsync());
 

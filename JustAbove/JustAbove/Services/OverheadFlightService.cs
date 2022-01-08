@@ -73,7 +73,7 @@ namespace JustAbove.Services
 
                     var flight = Flight.Create(
                         icao24: state.ICAO24,
-                        callsign: state.Callsign,
+                        callsign: state.Callsign.Trim(),
                         originCountry: state.OriginCountry,
                         lastContact: state.LastContact,
                         onGround: state.OnGround,
