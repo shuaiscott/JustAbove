@@ -4,7 +4,7 @@ using System.Text;
 
 namespace JustAbove.Models
 {
-    internal class Flight
+    public class Flight
     {
         public static Flight Create(
             string icao24,
@@ -13,14 +13,14 @@ namespace JustAbove.Models
             DateTime lastContact,
             bool onGround,
             int positionSource,
-            float? longitude = null,
-            float? latitude = null,
-            float? barometricAltitude = null,
-            float? velocity = null,
-            float? trueTrack = null,
-            float? verticalRate = null,
+            double? longitude = null,
+            double? latitude = null,
+            double? barometricAltitude = null,
+            double? velocity = null,
+            double? trueTrack = null,
+            double? verticalRate = null,
             DateTime? timePosition = null,
-            float? geometricAltitude = null)
+            double? geometricAltitude = null)
         {
             // TODO - Add validations here
 
@@ -48,14 +48,14 @@ namespace JustAbove.Models
             DateTime lastContact,
             bool onGround,
             int positionSource,
-            float? longitude = null,
-            float? latitude = null,
-            float? barometricAltitude = null,
-            float? velocity = null,
-            float? trueTrack = null,
-            float? verticalRate = null,
+            double? longitude = null,
+            double? latitude = null,
+            double? barometricAltitude = null,
+            double? velocity = null,
+            double? trueTrack = null,
+            double? verticalRate = null,
             DateTime? timePosition = null,
-            float? geometricAltitude = null
+            double? geometricAltitude = null
             )
         {
             ICAO24 = icao24;
@@ -79,14 +79,14 @@ namespace JustAbove.Models
         public string OriginCountry { get; private set; }
         public DateTime? TimePosition { get; private set; }
         public DateTime LastContact { get; private set; }
-        public float? Longitude { get; private set; }
-        public float? Latitude { get; private set; }
-        public float? BarometricAltitude { get; private set; }
+        public double? Longitude { get; private set; }
+        public double? Latitude { get; private set; }
+        public double? BarometricAltitude { get; private set; }
         public bool OnGround { get; private set; }
-        public float? Velocity { get; private set; }
-        public float? TrueTrack { get; private set; }
-        public float? VerticalRate { get; private set; }
-        public float? GeometricAltitude { get; private set; }
+        public double? Velocity { get; private set; }
+        public double? TrueTrack { get; private set; }
+        public double? VerticalRate { get; private set; }
+        public double? GeometricAltitude { get; private set; }
         public int PositionSource { get; private set; }
     }
 }

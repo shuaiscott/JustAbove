@@ -1,36 +1,45 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Security.Cryptography.X509Certificates;
+using System.Threading.Tasks;
+using System.Windows.Input;
+using JustAbove.Models;
+using JustAbove.Services;
 using Xamarin.Forms;
 
 namespace JustAbove.ViewModels
 {
     internal class FlightsViewModel : INotifyPropertyChanged
     {
-        private string _flightNum;
+        private List<Flight> _flights;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
         public FlightsViewModel()
         {
-            this.FlightNum = "12345";
+            Flights = new List<Flight>();
 
-            Device.StartTimer(TimeSpan.FromSeconds(1), () =>
-            {
-                this.FlightNum = new Random().Next(10000, 90000).ToString();
-                return true;
-            });
+            LoadOverheadFlightsCommand = new Command(async () => await LoadOverheadFlightsAsync());
         }
 
-        public string FlightNum
+        public async Task LoadOverheadFlightsAsync()
+        {
+            Flights = await OverheadFlightService.GetOverheadFlights();
+        }
+
+        public ICommand LoadOverheadFlightsCommand { protected set; get; }
+
+        public List<Flight> Flights
         {
             set
             {
-                if (_flightNum == value) return;
+                if (_flights == value) return;
 
-                _flightNum = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("FlightNum"));
+                _flights = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Flights"));
             }
-            get => _flightNum;
+            get => _flights;
         }
     }
 }

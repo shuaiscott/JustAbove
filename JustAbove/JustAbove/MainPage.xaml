@@ -5,15 +5,19 @@
              x:Class="JustAbove.MainPage">
 
     <StackLayout BackgroundColor="#231717">
-            <Label Text="✈ Flights" 
-                   HorizontalTextAlignment="Center" 
-                   TextColor="#ffd603" 
-                   FontSize="36"
-                   FontFamily="Lucida Sans"
-                   />
+        <Label Text="✈ Flights" 
+               HorizontalTextAlignment="Center" 
+               TextColor="#ffd603" 
+               FontSize="36"
+               FontFamily="Lucida Sans"
+               />
+        <StackLayout.BindingContext>
+            <viewModels:FlightsViewModel/>
+        </StackLayout.BindingContext>
 
+        <Button Text="Refresh" Command="{Binding LoadOverheadFlightsCommand}"/>
 
-        <Label Text="{Binding FlightNum}"
+        <Label Text="{Binding Flights[0].Callsign}"
                FontSize="36"
                FontFamily="LED"
                TextColor="#ffd603"
