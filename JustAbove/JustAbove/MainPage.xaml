@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:JustAbove.ViewModels;assembly=JustAbove"
+             x:Class="JustAbove.MainPage">
+
+    <StackLayout BackgroundColor="#231717">
+            <Label Text="✈ Flights" 
+                   HorizontalTextAlignment="Center" 
+                   TextColor="#ffd603" 
+                   FontSize="36"
+                   FontFamily="Lucida Sans"
+                   />
+
+
+        <Label Text="{Binding FlightNum}"
+               FontSize="36"
+               FontFamily="LED"
+               TextColor="#ffd603"
+               HorizontalOptions="Center"
+               VerticalOptions="Center">
+            <Label.BindingContext>
+                <viewModels:FlightsViewModel />
+            </Label.BindingContext>
+        </Label>
+
+        <!-- <ListView ItemsSource="{x:Static }" > -->
+        <!--     <ListView.ItemTemplate> -->
+        <!--         <DataTemplate> -->
+        <!--             <ViewCell> -->
+        <!--                 <ViewCell.View> -->
+        <!--                     <Label Text="{Binding x.TestInt}" -->
+        <!--                            TextColor="#ffd603"  -->
+        <!--                            FontSize="36"  -->
+        <!--                            FontFamily="LED"  -->
+        <!--                            Padding="20" /> -->
+        <!--                 </ViewCell.View> -->
+        <!--             </ViewCell> -->
+        <!--         </DataTemplate> -->
+        <!--     </ListView.ItemTemplate> -->
+        <!-- </ListView> -->
+
+
+    </StackLayout>
+
+</ContentPage>
