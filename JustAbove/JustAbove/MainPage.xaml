@@ -20,6 +20,7 @@
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <Label TextColor="#ffd603"
+                           BackgroundColor="#231717"
                            FontSize="36"
                            FontFamily="LED"
                            HorizontalTextAlignment="Center"

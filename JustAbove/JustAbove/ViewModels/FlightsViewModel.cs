@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -16,14 +17,14 @@ namespace JustAbove.ViewModels
 
         public event PropertyChangedEventHandler PropertyChanged;
 
+        private const int FlightListSize = 8;
+
         public FlightsViewModel()
         {
             Flights = new List<Flight>();
             Device.BeginInvokeOnMainThread(async () => await LoadOverheadFlightsAsync());
 
-            LoadOverheadFlightsCommand = new Command(async () => await LoadOverheadFlightsAsync());
-
-            Device.StartTimer(TimeSpan.FromSeconds(10), () =>
+            Device.StartTimer(TimeSpan.FromSeconds(5), () =>
             {
                 Device.BeginInvokeOnMainThread(async () => await LoadOverheadFlightsAsync());
                 return true;
@@ -32,10 +33,10 @@ namespace JustAbove.ViewModels
 
         public async Task LoadOverheadFlightsAsync()
         {
-            Flights = await OverheadFlightService.GetOverheadFlights();
-        }
+            var flights = await OverheadFlightService.GetOverheadFlights();
 
-        public ICommand LoadOverheadFlightsCommand { protected set; get; }
+            Flights = flights;
+        }
 
         public List<Flight> Flights
         {
@@ -44,6 +45,17 @@ namespace JustAbove.ViewModels
                 if (_flights == value) return;
 
                 _flights = value;
+
+                
+                if (_flights.Count < FlightListSize)
+                {
+                    var blankFlight = Flight.Create("", "                      ", "", DateTime.Now, false, 1);
+                    for (int i = _flights.Count; i < FlightListSize; i++)
+                    {
+                        _flights.Add(blankFlight);
+                    }
+                }
+
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Flights"));
             }
             get => _flights;
